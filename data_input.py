@@ -1,5 +1,3 @@
-
-
 def add_user():
     data_contacts = ['Введите ФИО = ', 'Введите название организации = ', 'Введите рабочий телефон = ',
                      'Введите телефон личный (сотовый) = ']
@@ -19,20 +17,17 @@ def search_user(su):
 
 # разбиваем список по строчно
     for i in rf.split('\n'):
+        if su.lower() in i.lower():
+            result.append(i)
 
-        if su.lower() in i.lower():     # проверяем введённые данные на присутствие в строке списка контактов
-            result.append(i)          # ели есть совпадение добавляем строку контакта в result
-
-        else:
-            pass                    # если нет, то ничегоне делаем
 
 # проверяем если в переменной result значения
     if len(result) > 0:
-        return
+        return result
     else:
         return (f"**********************************************************************\n"
                 f"Результат поиска контакта\n"
-                f"{{*Нет такого контакта*}}\n"
+                f"{{* Нет такого контакта *}}\n"
                 f"**********************************************************************\n")
 
 
@@ -42,7 +37,6 @@ def correct_contact(cont):
     res = 0
     with open('Contacts.txt', 'r', encoding='UTF-8') as file1:
         lines = file1.readlines()
-        result = []
 
     for line in lines:
 
@@ -62,12 +56,10 @@ def correct_contact(cont):
 
 
 def user_delete(du):
-    """Функцияудаления пользователя"""
+    """Функция удаления пользователя"""
 
-    result = []
     with open('Contacts.txt', 'r', encoding='UTF-8') as file1:
         lines = file1.readlines()
-        result = []
 
     for line in lines:
 
@@ -86,4 +78,4 @@ def user_delete(du):
             elif question.lower() == 'нет' or question.lower() == 'no':
                 return 'Вы сжалились'
             else:
-                return 'Моя твоя не понимать! Попробуйсте заного!'
+                return 'Моя твоя не понимать! Попробуйте заново!'
