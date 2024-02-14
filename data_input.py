@@ -114,7 +114,8 @@ class PhoneBook:
                 f"* Нет такого контакта *\n")
 
     def create_dict_list_users(self, request):
-
+        """Создание словаря с найдеными контактами"""
+        
         list_user = self.search_user(request, comnd=False)
 
         if isinstance(list_user, set):
