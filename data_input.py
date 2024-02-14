@@ -3,7 +3,7 @@ import pprint
 
 class PhoneBook:
     """
-        Класс телефонного справочника
+        Класс для телефонного справочника
         Содержит:
             список всех контактов
             функции добавления контактов
@@ -108,15 +108,15 @@ class PhoneBook:
             return '\n'.join(set(result))
         elif result and not comnd:
             return set(result)
-        
+
         return (f"Результат поиска контакта\n"
                 f"      ¯\_(ツ)_/¯     \n"
                 f"* Нет такого контакта *\n")
 
-    def correct_contact(self, request: str) -> str:
-        """Функция редактирования контакта"""
+    def create_dict_list_users(self, request):
 
         list_user = self.search_user(request, comnd=False)
+
         if isinstance(list_user, set):
             dict_user: dict = {}
             key_du: int = 1
@@ -136,17 +136,24 @@ class PhoneBook:
             except ValueError:
                 print("Неправильный ввод попробуйте ещё раз!")
 
+        return dict_user[choice_is_yours]
+
+    def correct_contact(self, request: str) -> str:
+        """Функция редактирования контакта"""
+
+        correct_users = self.create_dict_list_users(request)
+
         with open('Contacts.txt', 'r', encoding='UTF-8') as file1:
             lines = file1.readlines()
 
         for line in lines:
 
-            if dict_user[choice_is_yours] in line:
+            if correct_users in line:
                 print(f"для редактирования выбран = {line}")
-                
+
                 new_dict_user: list = []
 
-                for entry in dict_user[choice_is_yours].split(','):
+                for entry in correct_users.split(','):
                     new_entry: str = input(f'Текущее {entry}  -  Enter если не изменять\nВведите новое значение : ')
                     if new_entry != '':
                         new_dict_user.append(new_entry)
@@ -154,7 +161,7 @@ class PhoneBook:
                         new_dict_user.append(entry)
 
                 lines.remove(line)
-                lines.append(', '.join(new_dict_user) + '\n')
+                lines.append(','.join(new_dict_user) + '\n')
 
                 with open('Contacts.txt', 'w', encoding='UTF-8') as file2:
                     for i in lines:
@@ -162,16 +169,15 @@ class PhoneBook:
 
                 return 'Запись изменена!'
 
-    @staticmethod
-    def user_delete(request: str) -> str:
+    def user_delete(self, request: str) -> str:
         """Функция удаления пользователя"""
+        del_users = self.create_dict_list_users(request)
 
         with open('Contacts.txt', 'r', encoding='UTF-8') as file1:
             lines = file1.readlines()
 
         for line in lines:
-            
-            if request.lower() in line.lower():
+            if del_users in line:
                 print(f"для удаления выбран = {line}"
                       f"Введите < да >, если уверены\n"
                       f"Введите < нет >, если отменить")
