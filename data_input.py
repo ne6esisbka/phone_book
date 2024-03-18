@@ -108,10 +108,10 @@ class PhoneBook:
             return '\n'.join(set(result))
         elif result and not comnd:
             return set(result)
-
-        return (f"Результат поиска контакта\n"
-                f"      ¯\_(ツ)_/¯     \n"
-                f"* Нет такого контакта *\n")
+        else:
+            return (f"Результат поиска контакта\n"
+                    f"      ¯\_(ツ)_/¯     \n"
+                    f"* Нет такого контакта *\n")
 
     def create_dict_list_users(self, request):
         """Создание словаря с найдеными контактами"""
